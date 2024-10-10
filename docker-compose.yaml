@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 name: mio-example
 
@@ -10,13 +10,13 @@ services:
       MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
     ports:
-      - '9000:9000'
-      - '9001:9001'
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - ${CACHE_DIR:-./cache}/volumes/minio/data:/bitnami/minio/data
-    user: '0:0'
+    user: "0:0"
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 10s # Adjusted interval
       timeout: 20s # Keep the timeout to allow for a slow response
       retries: 5 # Increased retries to allow MinIO to fully initialize
@@ -31,7 +31,7 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc alias set myminio http://localhost:9000 ${MINIO_ACCESS_KEY:-minioadmin} ${MINIO_SECRET_KEY:-minioadmin} || exit 1;
-      /usr/bin/mc mb myminio/somebucketname;
-      /usr/bin/mc policy set public myminio/somebucketname;
+      /usr/bin/mc mb myminio/dev;
+      /usr/bin/mc policy set public myminio/dev;
       exit 0;
       "
